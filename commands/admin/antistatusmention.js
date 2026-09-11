@@ -3,7 +3,7 @@ const jsonStore = require("../../firebox/jsonStore");
 
 module.exports = {
     name: "antistatusmention",
-    aliases: ["antistatus", "antitag"],
+    aliases: ["antigroupstatusmention", "antigroupstatus", "antistatus", "antitag"],
     description: "Manage group or global anti-status-mention protection",
     category: "admin",
     adminOnly: true,

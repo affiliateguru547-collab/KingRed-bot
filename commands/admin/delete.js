@@ -6,12 +6,17 @@ module.exports = {
     adminOnly: true,
     groupOnly: true,
     async execute({ sock, jid, msg }) {
-        const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+        const contextInfo = msg.message?.extendedTextMessage?.contextInfo
+            || msg.message?.imageMessage?.contextInfo
+            || msg.message?.videoMessage?.contextInfo
+            || msg.message?.documentMessage?.contextInfo;
+        const quoted = contextInfo?.quotedMessage;
+        const botJid = sock.user?.id ? `${sock.user.id.split(":")[0]}@s.whatsapp.net` : sock.myJid;
         const key = {
             remoteJid: jid,
-            fromMe: msg.message?.extendedTextMessage?.contextInfo?.participant === sock.user.id.split(":")[0] + "@s.whatsapp.net",
-            id: msg.message?.extendedTextMessage?.contextInfo?.stanzaId,
-            participant: msg.message?.extendedTextMessage?.contextInfo?.participant
+            fromMe: contextInfo?.participant === botJid,
+            id: contextInfo?.stanzaId,
+            participant: contextInfo?.participant,
         };
 
         if (!key.id) return await sock.sendMessage(jid, { text: "❓ *Usage:* Reply to a message with `.delete` to remove it." });
