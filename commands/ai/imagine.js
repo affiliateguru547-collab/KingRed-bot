@@ -1,11 +1,11 @@
-const { generateImage } = require("../../lib/aiHelper");
+const { generateImage, checkAILimit } = require("../../lib/aiHelper");
 
 module.exports = {
     name: "imagine",
     aliases: ["img", "draw", "generate", "genimage"],
     description: "Generate an AI image from a text prompt.",
     category: "ai",
-    execute: async ({ sock, jid, args, msg }) => {
+    execute: async ({ sock, jid, args, msg, sender }) => {
         const prompt = args.join(" ").trim();
         if (!prompt) {
             return await sock.sendMessage(jid, {
@@ -19,6 +19,8 @@ module.exports = {
         }
 
         try {
+            const limit = checkAILimit(sender || jid);
+            if (!limit.allowed) return await sock.sendMessage(jid, { text: limit.reason }, { quoted: msg });
             await sock.sendMessage(jid, { react: { text: "🎨", key: msg.key } });
             await sock.sendMessage(jid, { text: `🎨 Generating image for: _"${prompt}"_\n\n⏳ Please wait...` });
 

@@ -1,11 +1,11 @@
-const { askAI } = require("../../lib/aiHelper");
+const { askAI, checkAILimit } = require("../../lib/aiHelper");
 
 module.exports = {
     name: "explain",
     aliases: ["wtf", "whatis", "definition"],
     description: "Get a clear explanation of any topic.",
     category: "ai",
-    execute: async ({ sock, jid, args, msg }) => {
+    execute: async ({ sock, jid, args, msg, sender }) => {
         const topic = args.join(" ").trim();
         if (!topic) {
             return await sock.sendMessage(jid, {
@@ -19,6 +19,8 @@ module.exports = {
         }
 
         try {
+            const limit = checkAILimit(sender || jid);
+            if (!limit.allowed) return await sock.sendMessage(jid, { text: limit.reason }, { quoted: msg });
             await sock.sendMessage(jid, { react: { text: "📖", key: msg.key } });
             await sock.sendMessage(jid, { text: `📖 Looking up: _"${topic}"_... ⏳` });
 

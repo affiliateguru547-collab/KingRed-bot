@@ -1,11 +1,11 @@
-const { askAI } = require("../../lib/aiHelper");
+const { askAI, checkAILimit } = require("../../lib/aiHelper");
 
 module.exports = {
     name: "code",
     aliases: ["codegen", "program", "dev"],
     description: "Generate code from a natural language prompt.",
     category: "ai",
-    execute: async ({ sock, jid, args, msg }) => {
+    execute: async ({ sock, jid, args, msg, sender }) => {
         const prompt = args.join(" ").trim();
         if (!prompt) {
             return await sock.sendMessage(jid, {
@@ -19,6 +19,8 @@ module.exports = {
         }
 
         try {
+            const limit = checkAILimit(sender || jid);
+            if (!limit.allowed) return await sock.sendMessage(jid, { text: limit.reason }, { quoted: msg });
             await sock.sendMessage(jid, { react: { text: "💻", key: msg.key } });
             await sock.sendMessage(jid, { text: "💻 Writing code... ⏳" });
 
