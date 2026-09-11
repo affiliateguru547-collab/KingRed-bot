@@ -91,6 +91,10 @@ app.use(express.static(path.join(__dirname, "public"), { index: false }));
 app.use("/api/auth", require("./saas/authApiRoutes"));
 app.use("/api/admin", require("./saas/adminApiRoutes"));
 app.use("/api/bot", require("./saas/userApiRoutes"));
+const { createDatabaseApiRouter } = require("./saas/fireboxDatabaseApi");
+const { requireAdmin } = require("./saas/adminAuth");
+app.use("/api/firebox-database/v1", createDatabaseApiRouter());
+app.use("/api/admin/firebox-database", require("./saas/fireboxDatabaseApi").createAdminRouter(requireAdmin));
 
 // ── Pages ─────────────────────────────────────────────────────────────────────
 
