@@ -54,6 +54,7 @@ class BotInstance {
         this.pendingPairingNumber = null;
         this.sessionIdFailed = false;
         this.sessionIdInvalid = false;
+        this.restoredFromDatabase = false;
 
         // Newsletter
         this.newsletterJid = "120363428521307680@newsletter";
@@ -224,7 +225,26 @@ class BotInstance {
             }
         }
 
-        let { state, saveCreds } = await useMultiFileAuthState(this.sessionDir);
+        // Railway replaces containers during redeploys. Keep Baileys creds and
+        // signal keys in MongoDB whenever it is available, and retain the
+        // multi-file state only as a development/offline fallback.
+        let authState;
+        let usingDatabaseAuth = false;
+        try {
+            const { initDb, isOnline } = require("../firebox/db");
+            await initDb();
+            if (isOnline()) {
+                const { useDatabaseAuthState } = require("../firebox/dbAuth");
+                authState = await useDatabaseAuthState(`saas_${this.userId}`);
+                usingDatabaseAuth = true;
+                console.log(`[${this.userId}] Using MongoDB auth state.`);
+            }
+        } catch (error) {
+            console.error(`[${this.userId}] MongoDB auth state unavailable:`, error.message);
+        }
+        if (!authState) authState = await useMultiFileAuthState(this.sessionDir);
+        let { state, saveCreds } = authState;
+        this.restoredFromDatabase = usingDatabaseAuth && !!state.creds.registered;
 
         // Fresh login cleanup
         if (!this.hasWipedSessionOnStartup && !state.creds.registered && !this.sessionId) {

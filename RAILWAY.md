@@ -9,6 +9,13 @@ MONGODB_DATABASE=firebox
 MONGODB_SERVERS_COLLECTION=servers
 ```
 
+The same MongoDB service is also used for Firebox token records and Baileys authentication state. The bot stores the token, protected phone number, credentials, and signal keys under the bot's stable token namespace in MongoDB, so replacing the Railway container no longer requires WhatsApp pairing again. Set a stable `SESSION_SECRET` (and optionally `FIREBOX_TOKEN_SECRET`); changing these secrets makes previously encrypted token records unreadable.
+
+After deploying this version, pair each existing bot once more. That first
+connection migrates its live Baileys credentials into MongoDB. Later Railway
+redeploys restore those credentials automatically. Do not delete the
+`BaileysAuth` collection or change the bot token identity.
+
 After saving the variables, redeploy the panel service. The `/admin` server registry will then save server name, hub URL, bot ID, bot key, public URL, active state, and creation time in the Railway MongoDB service.
 
 The webhook hub URL is not the MongoDB URL. Each actual bot deployment still uses `FIREBOX_HUB_URL`, `FIREBOX_BOT_ID`, `FIREBOX_BOT_KEY`, and `FIREBOX_PUBLIC_URL` for event delivery and pairing.

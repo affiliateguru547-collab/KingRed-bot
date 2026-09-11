@@ -29,23 +29,30 @@ router.get("/payment-config", (_req, res) => res.json({
 }));
 
 // Public Firebox pairing endpoints intentionally do not require an account.
-router.post("/token", (req, res) => {
+router.post("/token", async (req, res) => {
     try {
-        const token = tokenRegistry.create(req.body?.phone);
+        const token = await tokenRegistry.create(req.body?.phone);
         res.status(201).json({ ok: true, token });
     } catch (error) { res.status(400).json({ error: error.message }); }
 });
 
 router.post("/token/pair-code", async (req, res) => {
     try {
-        const resolved = tokenRegistry.resolve(req.body?.token);
+        const resolved = await tokenRegistry.resolve(req.body?.token);
+        // Keep the same bot identity after a Railway restart. The token hash is
+        // safe to store in the signed session and is never exposed as a secret.
+        req.session.botTokenHash = resolved.record.tokenHash;
         const inst = botManager.get(userId(req));
         if (inst.status === "online") return res.status(409).json({ error: "Already connected. Disconnect first." });
-        if (inst.status === "offline" && !inst.isReconnecting) inst.start().catch(() => {});
+        if (inst.status === "offline" && !inst.isReconnecting) await inst.start();
+        if (inst.restoredFromDatabase) {
+            await tokenRegistry.markUsed(resolved);
+            return res.json({ ok: true, restored: true, code: "SESSION RESTORED" });
+        }
         const rawCode = await inst.triggerPairingRestart(resolved.phone);
         const code = String(rawCode || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase();
         if (code.length !== 8) throw new Error("WhatsApp returned an invalid pairing code. Please retry.");
-        tokenRegistry.markUsed(resolved);
+        await tokenRegistry.markUsed(resolved);
         res.json({ ok: true, code });
     } catch (error) { res.status(400).json({ error: error.message || "Failed to generate pairing code." }); }
 });
@@ -57,7 +64,7 @@ router.use((req, res, next) => {
 
 // Use the express-session ID as the user/bot identifier
 function userId(req) {
-    return req.session.id;
+    return req.session.botTokenHash || req.session.id;
 }
 
 // ── Status ────────────────────────────────────────────────────────────────────

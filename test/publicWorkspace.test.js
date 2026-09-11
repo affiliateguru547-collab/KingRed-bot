@@ -14,6 +14,9 @@ const playCommandSource = fs.readFileSync(path.join(__dirname, "../commands/down
 const videoCommandSource = fs.readFileSync(path.join(__dirname, "../commands/download/yt.js"), "utf8");
 const viewOnceCommandSource = fs.readFileSync(path.join(__dirname, "../commands/general/viewonce.js"), "utf8");
 const mediaApiSource = fs.readFileSync(path.join(__dirname, "../lib/mediaApi.js"), "utf8");
+const dbSource = fs.readFileSync(path.join(__dirname, "../firebox/db.js"), "utf8");
+const dbAuthSource = fs.readFileSync(path.join(__dirname, "../firebox/dbAuth.js"), "utf8");
+const botInstanceSource = fs.readFileSync(path.join(__dirname, "../saas/botInstance.js"), "utf8");
 
 test("the public entry point separates reusable token and pairing-code pages", () => {
     assert.match(indexSource, /app\.get\("\/", \(_req, res\) => res\.redirect\("\/token"\)\)/);
@@ -88,6 +91,14 @@ test(".play and .video show downloading status, media, and retry errors", () => 
         assert.match(source, /try \{/);
         assert.match(source, /catch \(err\)/);
     }
+});
+
+test("Railway bot authentication uses durable MongoDB state when configured", () => {
+    assert.match(dbSource, /process\.env\.MONGO_URL \|\| process\.env\.MONGODB_URI \|\| process\.env\.MONGO_PUBLIC_URL/);
+    assert.match(dbAuthSource, /async function useDatabaseAuthState/);
+    assert.match(dbAuthSource, /BaileysAuth\.findOneAndUpdate/);
+    assert.match(botInstanceSource, /useDatabaseAuthState\(`saas_\$\{this\.userId\}`\)/);
+    assert.match(botInstanceSource, /if \(!authState\) authState = await useMultiFileAuthState/);
 });
 
 test(".owner shows the requested owner details and contact card", () => {

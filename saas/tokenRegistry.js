@@ -1,10 +1,25 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
+const mongoose = require("mongoose");
+const { initDb, isOnline } = require("../firebox/db");
 
 const storePath = path.join(__dirname, "..", "database", "firebox_tokens.json");
 const encryptionKey = crypto.createHash("sha256").update(String(process.env.FIREBOX_TOKEN_SECRET || process.env.SESSION_SECRET || "firebox-development-secret")).digest();
 const tokenPattern = /^FIREBOX-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
+
+const tokenSchema = new mongoose.Schema({
+    tokenHash: { type: String, required: true, unique: true, index: true },
+    tokenCiphertext: { type: mongoose.Schema.Types.Mixed, required: true },
+    phone: { type: mongoose.Schema.Types.Mixed, required: true },
+    status: { type: String, default: "active", index: true },
+    createdAt: { type: Date, default: Date.now },
+    lastUsedAt: Date,
+    expiresAt: Date,
+    pairingAttempts: { type: Number, default: 0 },
+}, { collection: "firebox_tokens" });
+let FireboxToken;
+try { FireboxToken = mongoose.model("FireboxToken"); } catch { FireboxToken = mongoose.model("FireboxToken", tokenSchema); }
 
 function readRecords() {
     try { return JSON.parse(fs.readFileSync(storePath, "utf8")); } catch { return []; }
@@ -27,7 +42,6 @@ function decryptText(payload) {
     decipher.setAuthTag(Buffer.from(payload.tag, "base64url"));
     return Buffer.concat([decipher.update(Buffer.from(payload.data, "base64url")), decipher.final()]).toString("utf8");
 }
-function encryptPhone(phone) { return encryptText(phone); }
 function decryptPhone(record) { return decryptText(record.phone); }
 function makeToken() {
     const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -39,46 +53,86 @@ function normalizePhone(phone) {
     if (clean.length < 7 || clean.length > 15) throw new Error("Invalid phone number. Include country code.");
     return clean;
 }
+async function useMongo() {
+    await initDb();
+    return isOnline();
+}
+function plain(record) {
+    const item = record.toObject ? record.toObject() : record;
+    return {
+        token: item.tokenCiphertext ? decryptText(item.tokenCiphertext) : null,
+        phone: decryptPhone(item),
+        status: item.status,
+        createdAt: item.createdAt,
+        lastUsedAt: item.lastUsedAt,
+        expiresAt: item.expiresAt,
+        pairingAttempts: Number(item.pairingAttempts || 0),
+    };
+}
 
 module.exports = {
-    create(phone) {
+    async create(phone) {
         const normalized = normalizePhone(phone);
-        const records = readRecords();
-        const alreadyHasToken = records.some(record => {
-            try { return decryptPhone(record) === normalized; } catch (_) { return false; }
-        });
-        if (alreadyHasToken) {
-            throw new Error("This phone number already has a Firebox token. Use the existing token instead.");
+        const token = makeToken();
+        const record = {
+            tokenHash: hashToken(token),
+            tokenCiphertext: encryptText(token),
+            phone: encryptText(normalized),
+            status: "active",
+            createdAt: new Date(),
+            lastUsedAt: null,
+            expiresAt: null,
+            pairingAttempts: 0,
+        };
+        if (await useMongo()) {
+            const existing = await FireboxToken.find({ status: "active" }).lean();
+            if (existing.some(item => { try { return decryptPhone(item) === normalized; } catch (_) { return false; } })) {
+                throw new Error("This phone number already has a Firebox token. Use the existing token instead.");
+            }
+            await FireboxToken.create(record);
+        } else {
+            const records = readRecords();
+            if (records.some(item => { try { return decryptPhone(item) === normalized; } catch (_) { return false; } })) {
+                throw new Error("This phone number already has a Firebox token. Use the existing token instead.");
+            }
+            record.createdAt = record.createdAt.toISOString();
+            writeRecords([...records, record]);
         }
-        let token;
-        do { token = makeToken(); } while (records.some(record => record.tokenHash === hashToken(token)));
-        records.push({ tokenHash: hashToken(token), tokenCiphertext: encryptText(token), phone: encryptPhone(normalized), status: "active", createdAt: new Date().toISOString(), lastUsedAt: null, expiresAt: null, pairingAttempts: 0 });
-        writeRecords(records);
         return token;
     },
-    resolve(token) {
+    async resolve(token) {
         const normalized = String(token || "").trim().toUpperCase();
         if (!tokenPattern.test(normalized)) throw new Error("Invalid Firebox token format.");
-        const records = readRecords();
-        const record = records.find(item => item.tokenHash === hashToken(normalized));
+        const hash = hashToken(normalized);
+        let record;
+        let records;
+        if (await useMongo()) {
+            record = await FireboxToken.findOne({ tokenHash: hash }).lean();
+        } else {
+            records = readRecords();
+            record = records.find(item => item.tokenHash === hash);
+        }
         if (!record || record.status !== "active") throw new Error("Firebox token not found or inactive.");
         if (record.expiresAt && Date.parse(record.expiresAt) < Date.now()) throw new Error("Firebox token has expired.");
-        return { token: normalized, phone: decryptPhone(record), record, records };
+        return { token: normalized, phone: decryptPhone(record), record, records, mongo: await useMongo() };
     },
-    markUsed(resolved) {
+    async markUsed(resolved) {
+        if (resolved.mongo) {
+            await FireboxToken.updateOne({ tokenHash: resolved.record.tokenHash }, { $set: { lastUsedAt: new Date() }, $inc: { pairingAttempts: 1 } });
+            return;
+        }
         resolved.record.lastUsedAt = new Date().toISOString();
         resolved.record.pairingAttempts = Number(resolved.record.pairingAttempts || 0) + 1;
         writeRecords(resolved.records);
     },
-    listAdmin() {
-        return readRecords().map(record => ({
-            token: record.tokenCiphertext ? decryptText(record.tokenCiphertext) : null,
-            phone: decryptPhone(record),
-            status: record.status,
-            createdAt: record.createdAt,
-            lastUsedAt: record.lastUsedAt,
-            expiresAt: record.expiresAt,
-            pairingAttempts: Number(record.pairingAttempts || 0),
-        }));
+    async listAdmin() {
+        if (await useMongo()) return (await FireboxToken.find({}).lean()).map(plain);
+        return readRecords().map(plain);
+    },
+    async listActiveBotIds() {
+        if (await useMongo()) {
+            return (await FireboxToken.find({ status: "active" }).select({ tokenHash: 1 }).lean()).map(item => item.tokenHash);
+        }
+        return readRecords().filter(item => item.status === "active").map(item => item.tokenHash);
     },
 };

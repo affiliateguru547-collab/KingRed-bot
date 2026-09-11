@@ -9,6 +9,7 @@
 const path = require("path");
 const fireboxWebhook = require("./saas/fireboxWebhook");
 const { isAdminAuthenticated } = require("./saas/adminAuth");
+const botManager = require("./saas/botManager");
 
 // ── Log noise filter ──────────────────────────────────────────────────────────
 const _origError = console.error.bind(console);
@@ -130,4 +131,5 @@ app.get("/health", (req, res) => res.send("🤖 Firebox Bot SaaS is Online!"));
 app.listen(PORT, () => {
     console.log(`🌍 Firebox Bot SaaS listening on port ${PORT}`);
     fireboxWebhook.start();
+    botManager.restorePersisted().catch((error) => console.error("❌ Persistent bot restore failed:", error.message));
 });

@@ -3,9 +3,13 @@ const mongoose = require("mongoose");
 let isDatabaseOnline = false;
 
 const initDb = async () => {
-    const uri = process.env.MONGODB_URI;
+    const uri = process.env.MONGO_URL || process.env.MONGODB_URI || process.env.MONGO_PUBLIC_URL;
     if (!uri) {
-        console.log("ℹ️  No MONGODB_URI set. Using JSON file fallback store.");
+        console.log("ℹ️  No MongoDB URI set. Using JSON file fallback store.");
+        return;
+    }
+    if (mongoose.connection.readyState === 1) {
+        isDatabaseOnline = true;
         return;
     }
     try {

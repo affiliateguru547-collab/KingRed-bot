@@ -32,6 +32,19 @@ class BotManager {
         return instance;
     }
 
+    async restorePersisted() {
+        const tokenRegistry = require("./tokenRegistry");
+        const botIds = await tokenRegistry.listActiveBotIds();
+        for (const botId of botIds) {
+            try {
+                await this.start(botId);
+                console.log(`[${botId}] Persistent bot restore started.`);
+            } catch (error) {
+                console.error(`[${botId}] Persistent bot restore failed:`, error.message);
+            }
+        }
+    }
+
     /**
      * Stop and remove the bot instance for a user.
      */
