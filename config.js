@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 module.exports = {
     // Bot version
     version: "1.0.1",
@@ -22,6 +24,6 @@ module.exports = {
     admins: [],
 
     // AI Configuration (Read from .env for security)
-    openaiKey: process.env.OPENAI_API_KEY || "", 
-    groqKey: process.env.GROQ_API_KEY || "", 
+    openaiKey: (process.env.OPENAI_API_KEY || "").trim(),
+    groqKey: (process.env.GROQ_API_KEY || "").trim(),
 };

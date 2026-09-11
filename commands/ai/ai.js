@@ -36,7 +36,7 @@ module.exports = {
             }, { quoted: msg });
 
         } catch (err) {
-            console.error("AI error:", err);
+            console.error("AI error:", err.message || err);
             await sock.sendMessage(jid, { text: "⚠️ AI service is currently unavailable. Try again later." });
         }
     }

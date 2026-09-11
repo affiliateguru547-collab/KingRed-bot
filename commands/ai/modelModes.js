@@ -51,7 +51,7 @@ function createMode(mode) {
                     text: `${mode.icon} *${mode.title}*\n\n${answer}\n\n_Powered by Firebox AI • Firebox Bot_`
                 }, { quoted: msg });
             } catch (error) {
-                console.error(`${mode.name} error:`, error.message);
+                console.error(`${mode.name} error:`, error.message || error);
                 return sock.sendMessage(jid, {
                     text: "⚠️ This Firebox AI mode is temporarily unavailable. Please try again later."
                 }, { quoted: msg });
