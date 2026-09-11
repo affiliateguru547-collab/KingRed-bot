@@ -37,7 +37,9 @@ module.exports = {
 
         } catch (err) {
             console.error("AI error:", err.message || err);
-            await sock.sendMessage(jid, { text: "⚠️ AI service is currently unavailable. Try again later." });
+            await sock.sendMessage(jid, {
+                text: "⚠️ *Firebox AI is unavailable right now.*\n\nCheck that `GROQ_API_KEY` is set on the bot service and redeploy Railway."
+            });
         }
     }
 };
