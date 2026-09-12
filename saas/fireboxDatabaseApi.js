@@ -97,7 +97,9 @@ async function authenticateDatabaseKey(req, res, next) {
     if (!match) return res.status(401).json({ error: "Authorization Bearer token required." });
     const supplied = match[1].trim();
     const active = await activeKeyRecord();
-    if (!active || !crypto.timingSafeEqual(Buffer.from(hashKey(supplied)), Buffer.from(String(active.hash)))) {
+    const suppliedHash = Buffer.from(hashKey(supplied));
+    const activeHash = Buffer.from(String(active?.hash || ""));
+    if (!active || suppliedHash.length !== activeHash.length || !crypto.timingSafeEqual(suppliedHash, activeHash)) {
         return res.status(401).json({ error: "Invalid or revoked API key." });
     }
     next();
@@ -143,10 +145,48 @@ async function readCollection(name, query) {
     ]);
     return { records: records.map(cleanValue), total, limit, offset: skip };
 }
+async function readRecord(name, id) {
+    if (name === "json_store") {
+        const record = jsonRecordEntries().find(item => String(item.id) === String(id));
+        if (!record) throw Object.assign(new Error("Record not found."), { status: 404 });
+        return record;
+    }
+    if (!safeCollectionName(name)) throw Object.assign(new Error("Collection is not available."), { status: 404 });
+    const collection = mongoose.connection.db.collection(name);
+    const candidates = [{ _id: id }];
+    if (mongoose.isValidObjectId(id)) candidates.unshift({ _id: new mongoose.Types.ObjectId(id) });
+    const projection = { password: 0, passwd: 0, pwd: 0, passcode: 0, passwordHash: 0, password_hash: 0, hashedPassword: 0, hashed_password: 0, connectionString: 0, connectionUri: 0, databaseUrl: 0, encryptionKey: 0, masterKey: 0, credentials: 0, cookie: 0, session: 0, authorization: 0 };
+    const record = await collection.findOne({ $or: candidates }, { projection });
+    if (!record) throw Object.assign(new Error("Record not found."), { status: 404 });
+    return cleanValue(record);
+}
+function sendApiError(res, error) {
+    const status = Number.isInteger(error?.status) ? error.status : 503;
+    return res.status(status).json({ error: error?.message || "Unable to read database." });
+}
 function createDatabaseApiRouter() {
     const router = express.Router();
     router.use(authenticateDatabaseKey);
     router.get("/info", (_req, res) => res.json({ ...metadata(), resources: ["control-room/tokens"], fields: ["phone", "token", "status", "createdAt", "lastUsedAt", "expiresAt", "pairingAttempts"] }));
+    router.get("/collections", async (_req, res) => {
+        try {
+            const names = await collectionNames();
+            const collections = await Promise.all(names.map(async name => {
+                if (name === "json_store") return jsonCollections()[0];
+                const count = await mongoose.connection.db.collection(name).countDocuments();
+                return { name, type: "collection", source: "mongodb", count };
+            }));
+            res.json({ collections });
+        } catch (error) { sendApiError(res, error); }
+    });
+    router.get("/collections/:collection/records", async (req, res) => {
+        try { res.json(await readCollection(req.params.collection, req.query)); }
+        catch (error) { sendApiError(res, error); }
+    });
+    router.get("/collections/:collection/records/:id", async (req, res) => {
+        try { res.json(await readRecord(req.params.collection, req.params.id)); }
+        catch (error) { sendApiError(res, error); }
+    });
     router.get("/control-room/tokens", async (req, res) => {
         try {
             const all = await tokenRegistry.listAdmin();
@@ -178,7 +218,7 @@ function createAdminRouter(requireAdmin) {
     router.post("/revoke", async (_req, res) => { await revokeKey(); res.json({ success: true, configured: false }); });
     return router;
 }
-module.exports = { API_VERSION, hashKey, generateKey, cleanValue, authenticateDatabaseKey, createDatabaseApiRouter, createAdminRouter, _test: { jsonRecordEntries, safeCollectionName, metadata } };
+module.exports = { API_VERSION, hashKey, generateKey, cleanValue, authenticateDatabaseKey, createDatabaseApiRouter, createAdminRouter, _test: { jsonRecordEntries, safeCollectionName, metadata, readCollection, readRecord } };
 
 
             

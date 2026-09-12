@@ -94,6 +94,9 @@ app.use("/api/bot", require("./saas/userApiRoutes"));
 const { createDatabaseApiRouter } = require("./saas/fireboxDatabaseApi");
 const { requireAdmin } = require("./saas/adminAuth");
 app.use("/api/firebox-database/v1", createDatabaseApiRouter());
+// Control Room's configured base URL points directly at the bot service and
+// expects this stable, unversioned database API contract.
+app.use("/api/firebox/database", createDatabaseApiRouter());
 app.use("/api/admin/firebox-database", require("./saas/fireboxDatabaseApi").createAdminRouter(requireAdmin));
 
 // ── Pages ─────────────────────────────────────────────────────────────────────
