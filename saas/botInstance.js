@@ -246,6 +246,12 @@ class BotInstance {
         } catch (error) {
             console.error(`[${this.userId}] MongoDB auth state unavailable:`, error.message);
         }
+        // stop() may have been called while database auth was loading. Do not
+        // let that in-flight restore create a second socket after a reset.
+        if (this.stopped) {
+            this.isReconnecting = false;
+            return;
+        }
         if (!authState) authState = await useMultiFileAuthState(this.sessionDir);
         let { state, saveCreds } = authState;
         this.restoredFromDatabase = usingDatabaseAuth && !!state.creds.registered;
