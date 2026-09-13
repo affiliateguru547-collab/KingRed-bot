@@ -140,9 +140,15 @@ class BotInstance {
                 const oldSock = this.sock;
                 try { oldSock.end(new Error("Pairing restart")); } catch (_) {}
                 this.sock = null;
-            } else {
-                setTimeout(() => this._connectionLogic(), 100);
             }
+
+            // The old socket may have emitted `close` before this method was
+            // called. Do not rely only on that event to restart pairing.
+            setTimeout(() => {
+                if (this.pairingRestartInProgress && !this.isReconnecting && !this.stopped) {
+                    this._connectionLogic();
+                }
+            }, 150);
         });
     }
 
