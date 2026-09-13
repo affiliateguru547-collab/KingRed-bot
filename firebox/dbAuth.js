@@ -88,4 +88,12 @@ async function useDatabaseAuthState(sessionName = "session") {
     };
 }
 
-module.exports = { useDatabaseAuthState };
+/** Delete every persisted Baileys credential and signal key for a session. */
+async function clearDatabaseAuthState(sessionName = "session") {
+    if (!isOnline()) return false;
+    const escapedPrefix = `${sessionName}_`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    await BaileysAuth.deleteMany({ keyId: { $regex: `^${escapedPrefix}` } });
+    return true;
+}
+
+module.exports = { useDatabaseAuthState, clearDatabaseAuthState };

@@ -42,13 +42,12 @@ router.post("/token/pair-code", async (req, res) => {
         // Keep the same bot identity after a Railway restart. The token hash is
         // safe to store in the signed session and is never exposed as a secret.
         req.session.botTokenHash = resolved.record.tokenHash;
-        const inst = botManager.get(userId(req));
-        if (inst.status === "online") return res.status(409).json({ error: "Already connected. Disconnect first." });
-        if (inst.status === "offline" && !inst.isReconnecting) await inst.start();
-        if (inst.restoredFromDatabase) {
-            await tokenRegistry.markUsed(resolved);
-            return res.json({ ok: true, restored: true, code: "SESSION RESTORED" });
-        }
+        const pairingUserId = userId(req);
+
+        // A token pairing request always means "link this number again".
+        // Never reuse a restored MongoDB/local auth state or an old socket.
+        await botManager.resetForPairing(pairingUserId);
+        const inst = botManager.get(pairingUserId);
         const rawCode = await inst.triggerPairingRestart(resolved.phone);
         const code = String(rawCode || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase();
         if (code.length !== 8) throw new Error("WhatsApp returned an invalid pairing code. Please retry.");
@@ -62,9 +61,10 @@ router.use((req, res, next) => {
     return res.status(401).json({ error: "Sign in required." });
 });
 
-// Use the express-session ID as the user/bot identifier
+// Use the token hash when available, otherwise the express-session ID.
 function userId(req) {
-    return req.session.botTokenHash || req.session.id;
+    if (req.session.botTokenHash) return req.session.botTokenHash;
+    return req.session.id;
 }
 
 // ── Status ────────────────────────────────────────────────────────────────────

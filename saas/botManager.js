@@ -56,6 +56,13 @@ class BotManager {
         }
     }
 
+    /** Remove runtime and persistent auth state before a new pairing flow. */
+    async resetForPairing(userId) {
+        this.stop(userId);
+        const { clearDatabaseAuthState } = require("../firebox/dbAuth");
+        await clearDatabaseAuthState(`saas_${userId}`);
+    }
+
     /**
      * Get the status summary for a user's bot.
      */

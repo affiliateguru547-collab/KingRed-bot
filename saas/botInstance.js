@@ -39,6 +39,7 @@ class BotInstance {
         this.botStartTime = null;
         this.status = "offline"; // offline | connecting | online
         this.isReconnecting = false;
+        this.stopped = false;
         this.consecutiveFailures = 0;
         this.hasWipedSessionOnStartup = false;
 
@@ -79,6 +80,7 @@ class BotInstance {
     // ── Start ──────────────────────────────────────────────────────────────────
 
     async start() {
+        this.stopped = false;
         if (!fs.existsSync(this.sessionDir)) {
             fs.mkdirSync(this.sessionDir, { recursive: true });
         }
@@ -89,6 +91,7 @@ class BotInstance {
     // ── Stop ───────────────────────────────────────────────────────────────────
 
     stop() {
+        this.stopped = true;
         this._clearTimers();
         if (this.sock) {
             try { this.sock.end(new Error("BotInstance stopped")); } catch (_) {}
@@ -206,6 +209,7 @@ class BotInstance {
     // ── Core connection logic ─────────────────────────────────────────────────
 
     async _connectionLogic() {
+        if (this.stopped) return;
         if (this.isReconnecting) return;
         this.isReconnecting = true;
         this.status = "connecting";
@@ -466,6 +470,8 @@ class BotInstance {
                 this.isReconnecting = false;
                 this.status = "offline";
                 this._clearTimers();
+
+                if (this.stopped) return;
 
                 if (this.pairingRestartInProgress) {
                     this.pairingRestartInProgress = false;
