@@ -55,6 +55,7 @@ class BotInstance {
         this.pendingPairingNumber = null;
         this.sessionIdFailed = false;
         this.sessionIdInvalid = false;
+        this.sessionInvalidated = false;
         this.restoredFromDatabase = false;
 
         // Newsletter
@@ -81,6 +82,7 @@ class BotInstance {
 
     async start() {
         this.stopped = false;
+        this.sessionInvalidated = false;
         if (!fs.existsSync(this.sessionDir)) {
             fs.mkdirSync(this.sessionDir, { recursive: true });
         }
@@ -161,6 +163,20 @@ class BotInstance {
         if (!fs.existsSync(credsPath) || fs.statSync(credsPath).size < 10) return null;
         const creds = fs.readFileSync(credsPath, "utf-8");
         return "FIREBOX~" + Buffer.from(creds).toString("base64");
+    }
+
+    waitForSessionState(timeoutMs = 15000) {
+        if (this.status === "online") return Promise.resolve("online");
+        if (this.sessionInvalidated) return Promise.resolve("invalid");
+        return new Promise(resolve => {
+            const started = Date.now();
+            const check = () => {
+                if (this.status === "online") return resolve("online");
+                if (this.sessionInvalidated || Date.now() - started >= timeoutMs) return resolve(this.sessionInvalidated ? "invalid" : "timeout");
+                setTimeout(check, 250);
+            };
+            check();
+        });
     }
 
     restoreSessionId(sessionId) {
@@ -494,6 +510,7 @@ class BotInstance {
                     }
                     this.sessionId = null;
                     this.sessionIdInvalid = true;
+                    this.sessionInvalidated = true;
                     this.wipeSession();
                     this.hasWipedSessionOnStartup = false;
                     console.log(`[${this.userId}] Auth state cleared. Waiting for a new pairing.`);

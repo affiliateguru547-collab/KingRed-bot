@@ -44,10 +44,24 @@ router.post("/token/pair-code", async (req, res) => {
         req.session.botTokenHash = resolved.record.tokenHash;
         const pairingUserId = userId(req);
 
-        // A token pairing request always means "link this number again".
-        // Never reuse a restored MongoDB/local auth state or an old socket.
-        await botManager.resetForPairing(pairingUserId);
         const inst = botManager.get(pairingUserId);
+        // Reuse a live or persisted session. Opening a second socket for a
+        // registered WhatsApp device causes a 440 "connection replaced" error.
+        if (inst.status === "online") {
+            await tokenRegistry.markUsed(resolved);
+            return res.json({ ok: true, restored: true, code: "SESSION RESTORED" });
+        }
+        if (inst.status === "offline" && !inst.isReconnecting) await inst.start();
+        if (inst.restoredFromDatabase) {
+            const state = await inst.waitForSessionState();
+            if (state === "online") {
+                await tokenRegistry.markUsed(resolved);
+                return res.json({ ok: true, restored: true, code: "SESSION RESTORED" });
+            }
+        }
+
+        // No registered credentials exist, so this is a genuine first pairing.
+        // triggerPairingRestart performs the deliberate stale-session cleanup.
         const rawCode = await inst.triggerPairingRestart(resolved.phone);
         const code = String(rawCode || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase();
         if (code.length !== 8) throw new Error("WhatsApp returned an invalid pairing code. Please retry.");
