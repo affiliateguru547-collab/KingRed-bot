@@ -473,12 +473,6 @@ class BotInstance {
 
                 if (this.stopped) return;
 
-                if (this.pairingRestartInProgress) {
-                    this.pairingRestartInProgress = false;
-                    setTimeout(() => this._connectionLogic(), 2000);
-                    return;
-                }
-
                 const statusCode = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
                 console.log(`[${this.userId}] 🔌 Disconnected. Status: ${statusCode}`);
 
@@ -497,6 +491,12 @@ class BotInstance {
                     this.wipeSession();
                     this.hasWipedSessionOnStartup = false;
                     console.log(`[${this.userId}] Auth state cleared. Waiting for a new pairing.`);
+                    return;
+                }
+
+                if (this.pairingRestartInProgress) {
+                    this.pairingRestartInProgress = false;
+                    setTimeout(() => this._connectionLogic(), 2000);
                     return;
                 }
 

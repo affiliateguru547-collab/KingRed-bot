@@ -59,6 +59,9 @@ class BotManager {
     /** Remove runtime and persistent auth state before a new pairing flow. */
     async resetForPairing(userId) {
         this.stop(userId);
+        // Baileys closes its WebSocket asynchronously. Give WhatsApp time to
+        // observe the old device disconnect before opening the replacement.
+        await new Promise(resolve => setTimeout(resolve, 2000));
         const { clearDatabaseAuthState } = require("../firebox/dbAuth");
         await clearDatabaseAuthState(`saas_${userId}`);
     }
