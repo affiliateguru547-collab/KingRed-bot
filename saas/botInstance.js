@@ -482,6 +482,24 @@ class BotInstance {
                 const statusCode = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
                 console.log(`[${this.userId}] 🔌 Disconnected. Status: ${statusCode}`);
 
+                if (statusCode === DisconnectReason.loggedOut) {
+                    // WhatsApp has invalidated this device. Retrying the same
+                    // MongoDB credentials only creates an endless "Logging in"
+                    // loop, so remove the persisted auth and wait for pairing.
+                    try {
+                        const { clearDatabaseAuthState } = require("../firebox/dbAuth");
+                        await clearDatabaseAuthState(`saas_${this.userId}`);
+                    } catch (error) {
+                        console.error(`[${this.userId}] Failed to clear logged-out auth:`, error.message);
+                    }
+                    this.sessionId = null;
+                    this.sessionIdInvalid = true;
+                    this.wipeSession();
+                    this.hasWipedSessionOnStartup = false;
+                    console.log(`[${this.userId}] Auth state cleared. Waiting for a new pairing.`);
+                    return;
+                }
+
                 const isNetworkError =
                     lastDisconnect?.error?.code === "ENOTFOUND" ||
                     lastDisconnect?.error?.code === "EAI_AGAIN" ||
@@ -494,7 +512,7 @@ class BotInstance {
 
                 if (!isNetworkError) this.consecutiveFailures++;
 
-                if (statusCode === DisconnectReason.loggedOut || this.consecutiveFailures >= 5) {
+                if (this.consecutiveFailures >= 5) {
                     this.consecutiveFailures = 0;
                     this.hasWipedSessionOnStartup = false;
                     if (this.sessionId) {
