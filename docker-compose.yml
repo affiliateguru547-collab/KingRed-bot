@@ -1,7 +1,7 @@
 services:
-  firebox-bot:
+  kingred-bot:
     build: .
-    container_name: firebox-bot
+    container_name: kingred-bot
     restart: always
     env_file:
       - .env
