@@ -15,7 +15,7 @@ const tokenRegistry = require("./tokenRegistry");
 const router = express.Router();
 router.use(express.json());
 router.post("/hub-sync", async (req, res) => {
-    if (!matchesSecret(req.get("X-Firebox-Sync-Key"), process.env.FIREBOX_PANEL_SYNC_SECRET)) return res.status(401).json({ error: "Invalid panel sync key." });
+    if (!matchesSecret(req.get("X-Kingred-Sync-Key"), process.env.KINGRED_PANEL_SYNC_SECRET)) return res.status(401).json({ error: "Invalid panel sync key." });
     try {
         const bot = await serverRegistry.upsertByBotId({ name: req.body.name, hubUrl: req.body.hubUrl, botId: req.body.botId, botKey: req.body.botKey, publicUrl: req.body.publicUrl, pairingMode: req.body.pairingMode });
         return res.json({ synced: true, bot });
@@ -25,7 +25,7 @@ router.post("/hub-sync", async (req, res) => {
 router.get("/payment-config", (_req, res) => res.json({
     enabled: String(process.env.MPESA_ENABLED || "false").toLowerCase() === "true",
     currency: "KSh",
-    plans: [{ days: 7, amount: 29 }, { days: 14, amount: 49 }, { days: 30, amount: 99 }]
+    plans: [{ days: 7, amount: 10 }, { days: 10, amount: 49 }, { days: 30, amount: 99 }]
 }));
 
 // Public Firebox pairing endpoints intentionally do not require an account.
@@ -292,7 +292,7 @@ router.post("/servers/:id/pair-code", async (req, res) => {
     if (!server) return res.status(404).json({ error: "Server not found." });
     try {
         const { response, body } = await remoteRequest(req, server, "/api/bot/pair-code", { method: "POST", body: JSON.stringify({ phone: req.body && req.body.phone }) });
-        if (body.error === "Sign in required.") { body.code = "REMOTE_PROXY_AUTH_REQUIRED"; body.error = "Remote bot rejected the panel bridge. Redeploy that bot from the latest Firebox Bot code and set FIREBOX_BOT_KEY to the same key saved for this server."; }
+        if (body.error === "Sign in required.") { body.code = "REMOTE_PROXY_AUTH_REQUIRED"; body.error = "Remote bot rejected the panel bridge. Redeploy that bot from the latest Kingred Bot code and set KINGRED_BOT_KEY to the same key saved for this server."; }
         res.status(response.status).json(body);
     } catch (error) { res.status(502).json({ error: `Selected server unavailable: ${error.message}` }); }
 });
