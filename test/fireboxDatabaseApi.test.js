@@ -1,6 +1,6 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
-const { generateKey, hashKey, cleanValue, _test } = require("../saas/fireboxDatabaseApi");
+const { generateKey, hashKey, cleanValue, _test } = require("../saas/kingredDatabaseApi");
 
 test("database API keys use a secure firebox prefix and are unique", () => {
     const first = generateKey();
