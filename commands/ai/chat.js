@@ -19,14 +19,14 @@ module.exports = {
             await sock.sendMessage(jid, { react: { text: "💬", key: msg.key } });
 
             const system =
-                "You are Firebox, a witty and friendly WhatsApp chatbot. " +
+                "You are Kingred, a witty and friendly WhatsApp chatbot. " +
                 "Keep responses conversational, warm, and brief (under 150 words). " +
                 "Use emojis occasionally to match the WhatsApp vibe.";
 
             const reply = await askAI(text, system);
 
             await sock.sendMessage(jid, {
-                text: `💬 *FIREBOX CHAT*\n\n${reply}`
+                text: `💬 *KINGRED CHAT*\n\n${reply}`
             }, { quoted: msg });
 
         } catch (err) {
