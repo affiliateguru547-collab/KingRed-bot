@@ -1,11 +1,11 @@
 /**
- * PM2 Ecosystem Configuration for Firebox Bot
+ * PM2 Ecosystem Configuration for Kingred Bot
  * Run: pm2 start ecosystem.config.js
  */
 
 module.exports = {
     apps: [{
-        name: "firebox-bot",
+        name: "kingred-bot",
         script: "index.js",
         interpreter: "node",
 
