@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/firebox-logo.svg" alt="Firebox Bot Banner" width="100%">
+  <img src="assets/kingred-logo.svg" alt="Kingred Bot Banner" width="100%">
 </p>
 
 <p align="center">
@@ -14,7 +14,7 @@
 
 ### <img src="https://img.icons8.com/color/28/whatsapp.png" width="18"/> Official WhatsApp Group
 Stay updated, ask questions, and chat with other users by joining our official group:
-**[Join Firebox Bot Support Group](https://chat.whatsapp.com/E8BOikeeP9a0ds2odgneHy)**
+**[Join Kingred Bot Support Group](https://whatsapp.com/channel/0029Vb9AwScF6sn47ClubG1Z,)**
 
 ### <img src="https://img.icons8.com/color/28/star.png" width="18"/> Support the Project
 If you like Firebox Bot, please take a moment to support the repository:
@@ -43,8 +43,8 @@ If you like Firebox Bot, please take a moment to support the repository:
 
 ## <img src="https://img.icons8.com/color/28/scales.png" width="22"/> Legal & Disclaimer
 
-The developers of Firebox Bot are not responsible for any damage, account bans, data loss, or legal actions resulting from the use of this software. By deploying or using this code, you agree to take full responsibility for your actions and abide by local regulations and terms of service.
+The developers of Kirebox Bot are not responsible for any damage, account bans, data loss, or legal actions resulting from the use of this software. By deploying or using this code, you agree to take full responsibility for your actions and abide by local regulations and terms of service.
 
 This bot is NOT officially authorized, endorsed, or affiliated with WhatsApp Inc. or Meta Platforms, Inc. Use responsibly and at your own risk.
 
-Copyright &copy; 2026 Firebox Studios. All rights reserved.
+Copyright &copy; 2026 Kirebox Studios. All rights reserved.
