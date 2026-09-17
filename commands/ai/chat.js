@@ -3,7 +3,7 @@ const { askAI, checkAILimit } = require("../../lib/aiHelper");
 module.exports = {
     name: "chat",
     aliases: ["talk", "convo"],
-    description: "Have a casual conversation with Firebox AI.",
+    description: "Have a casual conversation with Kingred AI.",
     category: "ai",
     execute: async ({ sock, jid, args, msg, sender }) => {
         const text = args.join(" ").trim();
