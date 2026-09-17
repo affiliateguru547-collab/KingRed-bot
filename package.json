@@ -1,5 +1,5 @@
 {
-  "name": "firebox-bot",
+  "name": "kingred-bot",
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "pm2": "pm2 start ecosystem.config.js",
-    "logs": "pm2 logs firebox-bot",
+    "logs": "pm2 logs kingred-bot",
     "test": "node --test test/*.test.js"
   },
   "keywords": [],
