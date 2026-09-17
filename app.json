@@ -1,14 +1,14 @@
 {
-  "name": "Firebox Bot",
+  "name": "KINGRED Bot",
   "description": "A powerful, multi-functional WhatsApp automation bot designed to elevate the general chat experience with smart tools and utilities.",
   "env": {
     "SESSION_ID": {
-      "description": "Your unique bot session ID (starts with FIREBOX~).",
+      "description": "Your unique bot session ID (starts with KINGRED~).",
       "required": true,
       "type": "string"
     },
     "SUDO": {
-      "description": "The Super-Admin phone number with country code (e.g. 254769564723). Can run system commands.",
+      "description": "The Super-Admin phone number with country code (e.g. 254100969922). Can run system commands.",
       "required": false,
       "type": "string"
     },
