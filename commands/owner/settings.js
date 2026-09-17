@@ -9,13 +9,13 @@ const getPanels = (s) => ({
     1: {
         title: "🤖 BOT CONFIGURATION",
         desc: "Customize your bot identity and behavior.",
-        status: `🔹 *Name:* ${s.botName || "Firebox Bot"}\n` +
+        status: `🔹 *Name:* ${s.botName || "Kingred Bot"}\n` +
                 `🔹 *Mode:* ${s.publicMode ? "public" : "private"}\n` +
                 `   _public = everyone can use, private = owner only_\n` +
                 `🔹 *Device:* ${s.device || "Android"}\n` +
                 `   _iPhone = plain text messages, Android = full features_\n` +
                 `🔹 *Prefix:* ${s.prefix || "."}\n` +
-                `🔹 *Pack:* ${s.packName || "Firebox Bot"}\n` +
+                `🔹 *Pack:* ${s.packName || "Kingred Bot"}\n` +
                 `🔹 *Author:* ${s.author || "White Wizard"}\n` +
                 `🔹 *Timezone:* ${s.timezone || "Africa/Nairobi"}\n` +
                 `🔹 *Bot Image:* ${s.botImage || "Default"}\n` +
