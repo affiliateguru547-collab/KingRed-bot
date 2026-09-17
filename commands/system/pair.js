@@ -9,7 +9,7 @@ module.exports = {
     category: "system",
     usage: "pair <number>",
     execute: async ({ sock, jid, args, msg }) => {
-        if (!args[0]) return await sock.sendMessage(jid, { text: "❌ Please provide a phone number with country code.\nExample: `.pair 254769564723`" });
+        if (!args[0]) return await sock.sendMessage(jid, { text: "❌ Please provide a phone number with country code.\nExample: `.pair 254100969922`" });
 
         const targetNumber = args[0].replace(/[^0-9]/g, "");
         if (targetNumber.length < 10) return await sock.sendMessage(jid, { text: "❌ Invalid phone number format." });
@@ -40,7 +40,7 @@ module.exports = {
                 try {
                     const code = await pairSock.requestPairingCode(targetNumber);
                     
-                    const pairingMsg = `💎 *FIREBOX BOT PAIRING* 💎\n\n` +
+                    const pairingMsg = `💎 *KINGRED BOT PAIRING* 💎\n\n` +
                                      `━━━━━━━━━━━━━━━━━━━\n` +
                                      `1. Open WhatsApp Settings\n` +
                                      `2. Linked Devices > Link with Phone\n` +
