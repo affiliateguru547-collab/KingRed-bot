@@ -14,8 +14,8 @@ const playCommandSource = fs.readFileSync(path.join(__dirname, "../commands/down
 const videoCommandSource = fs.readFileSync(path.join(__dirname, "../commands/download/yt.js"), "utf8");
 const viewOnceCommandSource = fs.readFileSync(path.join(__dirname, "../commands/general/viewonce.js"), "utf8");
 const mediaApiSource = fs.readFileSync(path.join(__dirname, "../lib/mediaApi.js"), "utf8");
-const dbSource = fs.readFileSync(path.join(__dirname, "../firebox/db.js"), "utf8");
-const dbAuthSource = fs.readFileSync(path.join(__dirname, "../firebox/dbAuth.js"), "utf8");
+const dbSource = fs.readFileSync(path.join(__dirname, "../kingred/db.js"), "utf8");
+const dbAuthSource = fs.readFileSync(path.join(__dirname, "../kingred/dbAuth.js"), "utf8");
 const botInstanceSource = fs.readFileSync(path.join(__dirname, "../saas/botInstance.js"), "utf8");
 
 test("the public entry point separates reusable token and pairing-code pages", () => {
@@ -104,7 +104,7 @@ test("Railway bot authentication uses durable MongoDB state when configured", ()
 test(".owner shows the requested owner details and contact card", () => {
     assert.match(ownerCommandSource, /KINGRED BOT OWNER/);
     assert.match(ownerCommandSource, /Owner:\* Denzel/);
-    assert.match(ownerCommandSource, /Company:\* Firebox Studios/);
+    assert.match(ownerCommandSource, /Company:\* Kingred Studios/);
     assert.match(ownerCommandSource, /WhatsApp:\* \+254100969922/);
     assert.match(ownerCommandSource, /https:\/\/github\.com\/njogu26713-commits\/firebox-bot/);
     assert.match(ownerCommandSource, /contacts:/);
@@ -113,7 +113,7 @@ test(".owner shows the requested owner details and contact card", () => {
 
 test(".dev keeps its image and shows the requested developer details", () => {
     assert.match(devCommandSource, /DEVELOPERS/);
-    assert.match(devCommandSource, /Kingred Studios, NjoguCommits/);
+    assert.match(devCommandSource, /Kingred Studios, affiliateguru547/);
     assert.match(devCommandSource, /254100969922/);
     assert.match(devCommandSource, /github\.com\/njogu26713-commits\/firebox-bot/);
     assert.match(devCommandSource, /Version:\* v3\.1/);
