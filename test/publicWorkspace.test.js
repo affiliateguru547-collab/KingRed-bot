@@ -31,25 +31,25 @@ test("the public entry point separates reusable token and pairing-code pages", (
     assert.match(indexSource, /app\.get\("\/login", \(_req, res\) => res\.redirect\("\/token"\)\)/);
     const tokenSource = fs.readFileSync(path.join(__dirname, "../public/token.html"), "utf8");
     const codeSource = fs.readFileSync(path.join(__dirname, "../public/code.html"), "utf8");
-    assert.match(tokenSource, /FIREBOX/);
+    assert.match(tokenSource, /KINGRED/);
     assert.match(tokenSource, /\/api\/bot\/token/);
     assert.match(tokenSource, /VALIDATING NUMBER/);
     assert.match(tokenSource, /ENCRYPTING REGISTRATION/);
-    assert.match(tokenSource, /SECURING FIREBOX IDENTITY/);
+    assert.match(tokenSource, /SECURING KINGRED IDENTITY/);
     assert.match(tokenSource, /SYNCING PAIRING SERVICE/);
     assert.match(tokenSource, /GENERATING YOUR TOKEN/);
     assert.match(tokenSource, /async function typewrite/);
     assert.match(tokenSource, /id="rotating-copy"/);
     assert.match(tokenSource, /Generate once\. Store it safely\./);
-    assert.match(tokenSource, /Your Firebox token stays yours\./);
+    assert.match(tokenSource, /Your Kingred token stays yours\./);
     assert.match(tokenSource, /window\.matchMedia\("\(prefers-reduced-motion: reduce\)"\)/);
     assert.doesNotMatch(tokenSource, /textContent=copyLines\[0\];return/);
-    assert.match(codeSource, /FIREBOX/);
+    assert.match(codeSource, /KINGRED/);
     assert.match(codeSource, /\/api\/bot\/token\/pair-code/);
     assert.match(codeSource, /FORGOT TOKEN\? CHAT ADMIN/);
-    assert.match(codeSource, /wa\.me\/254769564723/);
+    assert.match(codeSource, /wa\.me\/254100969922/);
     for (const source of [tokenSource, codeSource]) {
-        assert.match(source, /KSh 29/);
+        assert.match(source, /KSh 10/);
         assert.match(source, /KSh 49/);
         assert.match(source, /KSh 99/);
         assert.match(source, /\/api\/bot\/payment-config/);
@@ -69,7 +69,7 @@ test("the public entry point separates reusable token and pairing-code pages", (
     assert.doesNotMatch(adminSource, /Phone numbers are masked/);
     assert.match(adminSource, /data-copy-token/);
     assert.doesNotMatch(adminSource, /Add bot server|Webhook hub URL|Public bot URL|Bot key|Registered bots|Tracked bot usage/);
-    assert.match(adminSource, /wa\.me\/254769564723/);
+    assert.match(adminSource, /wa\.me\/254100969922/);
     assert.match(adminAccessSource, /\/api\/auth\/admin-login/);
     assert.match(adminAccessSource, /id="passcode"/);
     assert.doesNotMatch(adminAccessSource, /ADMIN EMAIL|id="email"/);
@@ -102,19 +102,19 @@ test("Railway bot authentication uses durable MongoDB state when configured", ()
 });
 
 test(".owner shows the requested owner details and contact card", () => {
-    assert.match(ownerCommandSource, /FIREBOX BOT OWNER/);
-    assert.match(ownerCommandSource, /Owner:\* Brayan/);
+    assert.match(ownerCommandSource, /KINGRED BOT OWNER/);
+    assert.match(ownerCommandSource, /Owner:\* Denzel/);
     assert.match(ownerCommandSource, /Company:\* Firebox Studios/);
-    assert.match(ownerCommandSource, /WhatsApp:\* \+254769564723/);
+    assert.match(ownerCommandSource, /WhatsApp:\* \+254100969922/);
     assert.match(ownerCommandSource, /https:\/\/github\.com\/njogu26713-commits\/firebox-bot/);
     assert.match(ownerCommandSource, /contacts:/);
-    assert.match(ownerCommandSource, /displayName: "Brayan"/);
+    assert.match(ownerCommandSource, /displayName: "Denzel"/);
 });
 
 test(".dev keeps its image and shows the requested developer details", () => {
     assert.match(devCommandSource, /DEVELOPERS/);
-    assert.match(devCommandSource, /Firebox Studios, NjoguCommits/);
-    assert.match(devCommandSource, /254769564723/);
+    assert.match(devCommandSource, /Kingred Studios, NjoguCommits/);
+    assert.match(devCommandSource, /254100969922/);
     assert.match(devCommandSource, /github\.com\/njogu26713-commits\/firebox-bot/);
     assert.match(devCommandSource, /Version:\* v3\.1/);
     assert.match(devCommandSource, /sock\.sendMessage\(jid, \{ image: banner, caption: text \}/);
@@ -142,7 +142,7 @@ test("the bot API remains session-scoped for each visitor", () => {
 
 // This test intentionally inspects route contracts without starting a bot or contacting WhatsApp.
 
-test("interactive menu messages retain forwarded Firebox channel metadata", () => {
+test("interactive menu messages retain forwarded Kingred channel metadata", () => {
     const botInstance = fs.readFileSync(path.join(__dirname, "../saas/botInstance.js"), "utf8");
     const utils = fs.readFileSync(path.join(__dirname, "../lib/utils.js"), "utf8");
     assert.match(botInstance, /sock\.newsletterJid = this\.newsletterJid/);
