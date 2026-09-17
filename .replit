@@ -16,10 +16,10 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Firebox Bot"
+args = "Kingred Bot"
 
 [[workflows.workflow]]
-name = "Firebox Bot"
+name = "Kingred Bot"
 author = "agent"
 
 [[workflows.workflow.tasks]]
