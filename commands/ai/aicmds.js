@@ -1,11 +1,11 @@
 module.exports = {
     name: "aicmds",
     aliases: ["aicommands", "aihelp"],
-    description: "Show Firebox AI commands.",
+    description: "Show Kingred AI commands.",
     category: "ai",
     async execute({ sock, jid, msg }) {
         const text =
-            "🤖 *FIREBOX AI COMMANDS*\n\n" +
+            "🤖 *KINGRED AI COMMANDS*\n\n" +
             "`.ai <question>` — Ask anything\n" +
             "`.chat <message>` — Casual conversation\n" +
             "`.explain <topic>` — Simple explanation\n" +
