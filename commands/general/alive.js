@@ -33,14 +33,14 @@ module.exports = {
                      `🕒 *Uptime:* \`${uptimeStr}\`\n` +
                      `📟 *RAM:* \`${procMem} MB\`\n` +
                      `📡 *Latency:* \`${Math.floor(Math.random() * 50) + 10}ms\`\n\n` +
-                     `📂 *Repo:* github.com/njogu26713-commits/firebox-bot\n` +
+                     `📂 *Repo:* github.com/njogu26713-commits/Kingred-bot\n` +
                      `_Type .menu to see what I can do!_`;
 
         let banner;
         if (botImageUrl && botImageUrl.startsWith("http")) {
             banner = { url: botImageUrl };
         } else {
-            banner = fs.readFileSync(path.join(__dirname, "../../assets/Fireboxpic.jpg"));
+            banner = fs.readFileSync(path.join(__dirname, "../../assets/Kingredpic.jpg"));
         }
 
         await sock.sendMessage(jid, { 
