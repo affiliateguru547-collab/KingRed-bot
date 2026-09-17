@@ -47,7 +47,7 @@ module.exports = {
                 `🧮 *CALCULATOR*\n\n` +
                 `📝 *Expression:* \`${expression}\`\n` +
                 `✅ *Result:* \`${formatted}\`\n\n` +
-                `_Firebox Bot Math Engine_`;
+                `_Kingred Bot Math Engine_`;
 
             await sock.sendMessage(jid, { text: reply }, { quoted: msg });
         } catch (err) {
