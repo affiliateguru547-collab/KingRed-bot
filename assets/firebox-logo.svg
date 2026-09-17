@@ -41,8 +41,8 @@
   <rect width="100%" height="100%" rx="12" fill="#0D0E15" />
   <g transform="translate(40, 20)">
     <!-- Animated Flame Icon -->
-    <g transform="translate(0, 10)">
-      <text font-size="36" y="46">🔥</text>
+    <g transform="translate(0, 20)">
+      <text font-size="56" y="46">🔥</text>
     </g>
     <!-- Text group -->
     <text x="65" y="52" class="animated-text">🔥 KINGRED BOT</text>
