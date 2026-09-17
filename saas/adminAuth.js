@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 
 function configuredAdminPasscode() {
-    return String(process.env.FIREBOX_ADMIN_PASSCODE || "");
+    return String(process.env.KINGRED_ADMIN_PASSCODE || "");
 }
 
 function isAdminAuthenticated(req) {
