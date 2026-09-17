@@ -1,7 +1,7 @@
 const crypto = require("node:crypto");
 const net = require("node:net");
 
-const helpText = `🛡️ *FIREBOX CYBERSECURITY LAB*
+const helpText = `🛡️ *KINGRED CYBERSECURITY LAB*
 
 Safe educational tools only — these commands do not scan, attack, exploit, or access systems.
 
