@@ -8,7 +8,7 @@ const storePath = path.join(__dirname, "../database/kingred_tokens.json");
 
 test("token registry creates opaque tokens and resolves the protected phone internally", async () => {
     try { fs.unlinkSync(storePath); } catch {}
-    const token = await registry.create("+254 769 564 723");
+    const token = await registry.create("+254 710 096 922");
     assert.match(token, /^KINGRED-[A-Z0-9]{4}-[A-Z0-9]{4}$/);
     const resolved = await registry.resolve(token);
     assert.equal(resolved.phone, "254100969922");
