@@ -19,7 +19,7 @@ module.exports = {
         const procMem = (process.memoryUsage().rss / 1024 / 1024).toFixed(2); // MB
 
         const statusText = 
-            `🛰️ *FIREBOX SYSTEM STATUS*\n\n` +
+            `🛰️ *KINGRED SYSTEM STATUS*\n\n` +
             `🟢 *Status:* Healthy\n` +
             `🕒 *Uptime:* \`${uptimeStr}\`\n\n` +
             `💻 *OS:* ${os.platform()} ${os.release()}\n` +
@@ -28,7 +28,7 @@ module.exports = {
             `🤖 *NodeJS:* ${process.version}\n\n` +
             `🏠 *Host:* ${os.hostname()}\n` +
             `⛓️ *Baileys:* @whiskeysockets/baileys\n\n` +
-            `_Firebox Bot Core Engine_`;
+            `_Kingred Bot Core Engine_`;
 
         await sock.sendMessage(jid, { text: statusText }, { quoted: msg });
     }
