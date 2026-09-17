@@ -9,7 +9,7 @@ module.exports = {
         const minutes = Math.floor((uptime % 3600) / 60);
         const seconds = Math.floor(uptime % 60);
 
-        const text = `🕒 *FIREBOX UPTIME*\n\nOnline for: \`${hours}h ${minutes}m ${seconds}s\``;
+        const text = `🕒 *KINGRED UPTIME*\n\nOnline for: \`${hours}h ${minutes}m ${seconds}s\``;
         await sock.sendMessage(jid, { text });
     }
 };
