@@ -9,13 +9,13 @@ module.exports = {
     category: "general",
     execute: async ({ sock, jid, msg }) => {
         const owners = config.ownerNumbers || [];
-        let contactText = `💬 *FIREBOX BOT SUPPORT & COMMUNITY*\n\n` +
+        let contactText = `💬 *KINGRED BOT SUPPORT & COMMUNITY*\n\n` +
                           `👥 *Official Testing & Support Group:*\n` +
                           `Join the group to test bot functionality, chat, and get updates:\n` +
-                          `👉 https://chat.whatsapp.com/E8BOikeeP9a0ds2odgneHy\n\n` +
+                          `👉 https://whatsapp.com/channel/0029Vb9AwScF6sn47ClubG1Z\n\n` +
                           `📢 *Official WhatsApp Channel:*\n` +
                           `Follow the channel for bot updates and announcements:\n` +
-                          `👉 https://whatsapp.com/channel/0029Vb8elJp77qVJlCeiNX26\n\n` +
+                          `👉 https://whatsapp.com/channel/0029Vb9AwScF6sn47ClubG1Z\n\n` +
                           `🛡️ *Bot Administrators:*\n` +
                           `For private support or queries, contact the admin team:\n\n`;
 
@@ -23,8 +23,8 @@ module.exports = {
             owners.forEach((ownerJid, idx) => {
                 const number = ownerJid.split("@")[0];
                 const role = idx === 0 ? "Primary Owner (SUDO)" : "Administrator";
-                const link = idx === 0 ? "https://wa.me/254769564723" : `https://wa.me/${number}`;
-                const userText = idx === 0 ? " (@fireboxstudios)" : "";
+                const link = idx === 0 ? "https://wa.me/254100969922" : `https://wa.me/${number}`;
+                const userText = idx === 0 ? " (@kingredstudios)" : "";
                 contactText += `👤 *${role}:${userText}*\n` +
                                `👉 ${link}\n\n`;
             });
@@ -32,7 +32,7 @@ module.exports = {
             contactText += `⚠️ No administrators configured.\n\n`;
         }
 
-        contactText += `_Thank you for using Firebox Bot!_`;
+        contactText += `_Thank you for using Kingre Bot!_`;
 
         const { getSettings } = require("../../lib/settings");
         const settings = getSettings();
@@ -47,10 +47,10 @@ module.exports = {
         }
 
         const { sendButtonMessage } = require("../../lib/utils");
-        const footerText = "Firebox Bot Support";
+        const footerText = "Kingred Bot Support";
         const buttons = [
             { text: "💻 Bot Repo", url: "https://github.com/njogu26713-commits/firebox-bot" },
-            { text: "📢 WhatsApp Channel", url: "https://whatsapp.com/channel/0029Vb8elJp77qVJlCeiNX26" }
+            { text: "📢 WhatsApp Channel", url: "https://whatsapp.com/channel/0029Vb9AwScF6sn47ClubG1Z" }
         ];
 
         await sendButtonMessage(sock, jid, contactText, footerText, buttons, banner, msg);
