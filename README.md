@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/kingred-logo.svg" alt="Kingred Bot Banner" width="100%">
+  <img src="assets/firebox-logo.svg" alt="Kingred Bot Banner" width="100%">
 </p>
 
 <p align="center">
