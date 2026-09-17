@@ -1,24 +1,24 @@
 const crypto = require("crypto");
 const express = require("express");
 const { mongoose, isOnline } = require("../firebox/db");
-const jsonStore = require("../firebox/jsonStore");
+const jsonStore = require("../kingred/jsonStore");
 const tokenRegistry = require("./tokenRegistry");
 
 const API_VERSION = "1.0";
 const STORE_KEY = "firebox_database_api_key";
 const PASSWORD_KEY = /^(password|passwd|pwd|passcode|passwordhash|password_hash|hashedpassword|hashed_password)$/i;
 const INFRASTRUCTURE_SECRET_KEY = /(connection(uri|string)?|database[_-]?url|encryption[_-]?key|master[_-]?key|credential|cookie|session|authorization)/i;
-const RESERVED_COLLECTIONS = new Set(["system.users", "system.version", "firebox_database_api_keys"]);
+const RESERVED_COLLECTIONS = new Set(["system.users", "system.version", "kingred_database_api_keys"]);
 
 const keySchema = new mongoose.Schema({
     hash: { type: String, required: true, unique: true },
     prefix: { type: String, required: true, default: "fbx_db_" },
     createdAt: { type: Date, default: Date.now },
     revokedAt: { type: Date, default: null },
-}, { collection: "firebox_database_api_keys", versionKey: false });
+}, { collection: "kingred_database_api_keys", versionKey: false });
 let KeyModel;
-try { KeyModel = mongoose.model("FireboxDatabaseApiKey"); }
-catch { KeyModel = mongoose.model("FireboxDatabaseApiKey", keySchema); }
+try { KeyModel = mongoose.model("KingredDatabaseApiKey"); }
+catch { KeyModel = mongoose.model("KingredDatabaseApiKey", keySchema); }
 
 function hashKey(key) {
     return crypto.createHash("sha256").update(String(key), "utf8").digest("hex");
@@ -113,7 +113,7 @@ async function collectionNames() {
 }
 function metadata() {
     return {
-        appName: process.env.APP_NAME || "Firebox Bot",
+        appName: process.env.APP_NAME || "Kingred Bot",
         apiVersion: API_VERSION,
         databaseType: isOnline() ? "mongodb" : "json-fallback",
         capabilities: { read: true, create: false, update: false, delete: false, schemaChanges: false, arbitraryCommands: false },
