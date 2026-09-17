@@ -4,9 +4,9 @@ const path = require("path");
 const mongoose = require("mongoose");
 const { initDb, isOnline } = require("../firebox/db");
 
-const storePath = path.join(__dirname, "..", "database", "firebox_tokens.json");
-const encryptionKey = crypto.createHash("sha256").update(String(process.env.FIREBOX_TOKEN_SECRET || process.env.SESSION_SECRET || "firebox-development-secret")).digest();
-const tokenPattern = /^FIREBOX-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
+const storePath = path.join(__dirname, "..", "database", "kingred_tokens.json");
+const encryptionKey = crypto.createHash("sha256").update(String(process.env.KINGRED_TOKEN_SECRET || process.env.SESSION_SECRET || "kingred-development-secret")).digest();
+const tokenPattern = /^KINGRED-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
 
 const tokenSchema = new mongoose.Schema({
     tokenHash: { type: String, required: true, unique: true, index: true },
@@ -17,9 +17,9 @@ const tokenSchema = new mongoose.Schema({
     lastUsedAt: Date,
     expiresAt: Date,
     pairingAttempts: { type: Number, default: 0 },
-}, { collection: "firebox_tokens" });
-let FireboxToken;
-try { FireboxToken = mongoose.model("FireboxToken"); } catch { FireboxToken = mongoose.model("FireboxToken", tokenSchema); }
+}, { collection: "kingred_tokens" });
+let KingredToken;
+try { KingredToken = mongoose.model("KingredToken"); } catch { KingredToken = mongoose.model("KingredToken", tokenSchema); }
 
 function readRecords() {
     try { return JSON.parse(fs.readFileSync(storePath, "utf8")); } catch { return []; }
@@ -46,7 +46,7 @@ function decryptPhone(record) { return decryptText(record.phone); }
 function makeToken() {
     const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     const part = () => Array.from({ length: 4 }, () => alphabet[crypto.randomInt(alphabet.length)]).join("");
-    return `FIREBOX-${part()}-${part()}`;
+    return `KINGRED-${part()}-${part()}`;
 }
 function normalizePhone(phone) {
     const clean = String(phone || "").replace(/\D/g, "");
@@ -85,15 +85,15 @@ module.exports = {
             pairingAttempts: 0,
         };
         if (await useMongo()) {
-            const existing = await FireboxToken.find({ status: "active" }).lean();
+            const existing = await KingredToken.find({ status: "active" }).lean();
             if (existing.some(item => { try { return decryptPhone(item) === normalized; } catch (_) { return false; } })) {
-                throw new Error("This phone number already has a Firebox token. Use the existing token instead.");
+                throw new Error("This phone number already has a Kingred token. Use the existing token instead.");
             }
-            await FireboxToken.create(record);
+            await KingredToken.create(record);
         } else {
             const records = readRecords();
             if (records.some(item => { try { return decryptPhone(item) === normalized; } catch (_) { return false; } })) {
-                throw new Error("This phone number already has a Firebox token. Use the existing token instead.");
+                throw new Error("This phone number already has a Kingred token. Use the existing token instead.");
             }
             record.createdAt = record.createdAt.toISOString();
             writeRecords([...records, record]);
@@ -102,23 +102,23 @@ module.exports = {
     },
     async resolve(token) {
         const normalized = String(token || "").trim().toUpperCase();
-        if (!tokenPattern.test(normalized)) throw new Error("Invalid Firebox token format.");
+        if (!tokenPattern.test(normalized)) throw new Error("Invalid Kingred token format.");
         const hash = hashToken(normalized);
         let record;
         let records;
         if (await useMongo()) {
-            record = await FireboxToken.findOne({ tokenHash: hash }).lean();
+            record = await KingredToken.findOne({ tokenHash: hash }).lean();
         } else {
             records = readRecords();
             record = records.find(item => item.tokenHash === hash);
         }
-        if (!record || record.status !== "active") throw new Error("Firebox token not found or inactive.");
-        if (record.expiresAt && Date.parse(record.expiresAt) < Date.now()) throw new Error("Firebox token has expired.");
+        if (!record || record.status !== "active") throw new Error("Kingred token not found or inactive.");
+        if (record.expiresAt && Date.parse(record.expiresAt) < Date.now()) throw new Error("Kingred token has expired.");
         return { token: normalized, phone: decryptPhone(record), record, records, mongo: await useMongo() };
     },
     async markUsed(resolved) {
         if (resolved.mongo) {
-            await FireboxToken.updateOne({ tokenHash: resolved.record.tokenHash }, { $set: { lastUsedAt: new Date() }, $inc: { pairingAttempts: 1 } });
+            await KingredToken.updateOne({ tokenHash: resolved.record.tokenHash }, { $set: { lastUsedAt: new Date() }, $inc: { pairingAttempts: 1 } });
             return;
         }
         resolved.record.lastUsedAt = new Date().toISOString();
@@ -126,12 +126,12 @@ module.exports = {
         writeRecords(resolved.records);
     },
     async listAdmin() {
-        if (await useMongo()) return (await FireboxToken.find({}).lean()).map(plain);
+        if (await useMongo()) return (await KingredToken.find({}).lean()).map(plain);
         return readRecords().map(plain);
     },
     async listActiveBotIds() {
         if (await useMongo()) {
-            return (await FireboxToken.find({ status: "active" }).select({ tokenHash: 1 }).lean()).map(item => item.tokenHash);
+            return (await KingredToken.find({ status: "active" }).select({ tokenHash: 1 }).lean()).map(item => item.tokenHash);
         }
         return readRecords().filter(item => item.status === "active").map(item => item.tokenHash);
     },
