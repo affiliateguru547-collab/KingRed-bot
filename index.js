@@ -1,7 +1,7 @@
 /**
- * Firebox Bot — SaaS Server
+ * Kingred Bot — SaaS Server
  *
- * The original Firebox Bot browser session remains available for bot setup.
+ * The original Kingred Bot browser session remains available for bot setup.
  * The optional server registry uses a separate password-authenticated account
  * stored in the existing local application database directory.
  */
@@ -132,11 +132,11 @@ app.get("/servers", (_req, res) => res.redirect("/token"));
 // Legacy redirect
 app.get("/pair", (_req, res) => res.redirect("/code"));
 
-app.get("/health", (req, res) => res.send("🤖 Firebox Bot SaaS is Online!"));
+app.get("/health", (req, res) => res.send("🤖 Kingred Bot SaaS is Online!"));
 
 // ── Listen ────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-    console.log(`🌍 Firebox Bot SaaS listening on port ${PORT}`);
+    console.log(`🌍 Kingred Bot SaaS listening on port ${PORT}`);
     fireboxWebhook.start();
     botManager.restorePersisted().catch((error) => console.error("❌ Persistent bot restore failed:", error.message));
 });
