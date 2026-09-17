@@ -1,11 +1,11 @@
-<svg width="100%" height="120" viewBox="0 0 800 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="100%" height="120" viewBox="0 0 800 130" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#FF6A00" />
       <stop offset="50%" stop-color="#FF0080" />
       <stop offset="100%" stop-color="#FF6A00" />
     </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="150%">
+    <filter id="glow" x="-30%" y="-30%" width="150%" height="160%">
       <feGaussianBlur stdDeviation="8" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
