@@ -24,8 +24,8 @@ module.exports = {
         else greeting = "Good Evening 🌃";
 
         const settings = getSettings();
-        const botName = settings.botName || "Firebox Bot";
-        const botImageUrl = settings.botImage;
+        const botName = settings.botName || "Kingred Bot";
+        const botImageUrl= settings.botImage;
 
         const text = `👋 *${greeting}!*\n\n` +
                      `🚀 *${botName}* is online and operational.\n\n` +
@@ -33,7 +33,7 @@ module.exports = {
                      `🕒 *Uptime:* \`${uptimeStr}\`\n` +
                      `📟 *RAM:* \`${procMem} MB\`\n` +
                      `📡 *Latency:* \`${Math.floor(Math.random() * 50) + 10}ms\`\n\n` +
-                     `📂 *Repo:* github.com/njogu26713-commits/Kingred-bot\n` +
+                     `📂 *Repo:github.com/affiliateguru547-cc/KingRed-bot\n` +
                      `_Type .menu to see what I can do!_`;
 
         let banner;
