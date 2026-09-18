@@ -8,9 +8,9 @@ module.exports = {
     category: "general",
     execute: async ({ sock, jid, msg }) => {
         const text = `👨‍💻 *DEVELOPERS*\n\n` +
-                     `🏢 *Company:* Firebox Studios, NjoguCommits\n` +
-                     `📱 *WhatsApp:* 254769564723\n` +
-                     `📂 *GitHub:* https://github.com/njogu26713-commits/firebox-bot\n` +
+                     `🏢 *Company:* Kingred Studios, NjoguCommits\n` +
+                     `📱 *WhatsApp:* 254100969922\n` +
+                     `📂 *GitHub:* https://github.com/affiliateguru547-cc/KingRed-bot\n` +
                      `🧩 *Version:* v3.1`;
 
         const { getSettings } = require("../../lib/settings");
