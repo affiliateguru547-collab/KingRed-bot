@@ -125,7 +125,7 @@
 
 - [x] Replace the multi-bot/server chooser with a single Firebox Bot identity and workspace
 - [x] Implement the two-stage Firebox token registration and pairing-code UI from the supplied brief
-- [x] Remove alternate bot names, links, and non-Firebox bot choices from user-facing pages
+- [x] Remove alternate bot names, links, and non-Kigred bot choices from user-facing pages
 - [ ] Preserve compatible existing status, pairing, QR, and account behavior
 - [x] Verify desktop/mobile UI and run the regression test suite
 

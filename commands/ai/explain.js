@@ -33,12 +33,12 @@ module.exports = {
 
             await sock.sendMessage(jid, {
                 text:
-                    `📖 *FIREBOX EXPLAINER*\n\n` +
+                    `📖 *KINGRED EXPLAINER*\n\n` +
                     `🔍 *Topic:* ${topic.charAt(0).toUpperCase() + topic.slice(1)}\n\n` +
                     `━━━━━━━━━━━━━━━━\n` +
                     `${result}\n` +
                     `━━━━━━━━━━━━━━━━\n\n` +
-                    `_Firebox Bot Knowledge Base_`
+                    `_Kingred Bot Knowledge Base_`
             }, { quoted: msg });
 
         } catch (err) {

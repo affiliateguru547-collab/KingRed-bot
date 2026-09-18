@@ -137,6 +137,6 @@ app.get("/health", (req, res) => res.send("🤖 Kingred Bot SaaS is Online!"));
 // ── Listen ────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
     console.log(`🌍 Kingred Bot SaaS listening on port ${PORT}`);
-    fireboxWebhook.start();
+    kingredWebhook.start();
     botManager.restorePersisted().catch((error) => console.error("❌ Persistent bot restore failed:", error.message));
 });
