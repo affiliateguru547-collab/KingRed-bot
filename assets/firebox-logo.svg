@@ -42,10 +42,10 @@
   <g transform="translate(40, 20)">
     <!-- Animated Flame Icon -->
     <g transform="translate(0, 20)">
-      <text font-size="56" y="56">🔥</text>
+      <text font-size="66" y="76">🔥</text>
     </g>
     <!-- Text group -->
-    <text x="65" y="52" class="animated-text">🔥 KINGRED BOT</text>
+    <text x="75" y="62" class="animated-text">🔥 KINGRED BOT</text>
     <text x="68" y="70" class="sub-text">THE ULTIMATE WHATSAPP POWER-BOT</text>
   </g>
 </svg>
