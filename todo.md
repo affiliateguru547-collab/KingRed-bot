@@ -77,7 +77,7 @@
 - [x] Add a secure panel-to-bot authentication bridge without exposing bot keys to browsers.
 - [x] Test status and pairing requests through the selected remote bot deployment.
 
-- [x] Add `FIREBOX_ADMIN_EMAIL` authorization for `/admin` and admin reporting APIs.
+- [x] Add `_ADMIN_EMAIL` authorization for `/admin` and admin reporting APIs.
 - [x] Track the signed-in account and selected bot ID for server usage reporting without storing secrets in responses.
 - [x] Build an admin dashboard showing registered users, registered bots, and each user’s selected bot ID.
 - [x] Test admin/non-admin access, privacy, usage tracking, and unchanged pairing behavior.
@@ -225,7 +225,7 @@
 - [x] Update `.dev` output with the supplied Firebox Studios developer details without removing its image
 - [x] Verify the text and image reference, then push the command update
 
-- [x] Update `.owner` output with Brayan and the supplied Firebox Studios contact details
+- [x] Update `.owner` output with Denzel and the supplied J Studios contat details
 - [x] Verify owner message formatting and push the update
 
 - [x] Send `DOWNLOADING...` before `.play` and `.video` media processing
