@@ -41,7 +41,7 @@ module.exports = {
                 `😂 *JOKE INSULT*\n\n` +
                 `🎯 @${mentioned.split("@")[0]}:\n\n` +
                 `_"${insult}"_\n\n` +
-                `_All in good fun! • Firebox Bot_`,
+                `_All in good fun! • Kingred Bot_`,
             mentions: [mentioned]
         }, { quoted: msg });
     }

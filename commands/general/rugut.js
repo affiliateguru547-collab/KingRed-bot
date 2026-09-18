@@ -15,7 +15,7 @@ module.exports = {
                 `It’s a mindset, a standard, and a responsibility. When we come together, colliding with White Wizard in tech, I don’t just chase success — I define it, we build it, and we leave the world better than we found it. Ordinary is not in our vocabulary."\n\n` +
                 `⚔️ *Surviving is equal to winning and it always conquers.*\n\n` +
                 `━━━━━━━━━━━━━━━━━━━\n` +
-                `🔱 *FIREBOX BOT ELITE COALITION*`;
+                `🔱 *KINRED BOT ELITE COALITION*`;
 
             const imagePath = path.join(__dirname, "../../assets/rugut.jpeg");
 

@@ -32,7 +32,7 @@ module.exports = {
                 `🉐 *Kanji:* ${name_kanji}\n\n` +
                 `📝 *About:* ${about.replace(/\r?\n/g, " ")}\n\n` +
                 `🔗 *MAL URL:* ${url}\n\n` +
-                `_Firebox Bot Anime Hub_`;
+                `_Kingred Bot Anime Hub_`;
 
             if (char.images?.jpg?.image_url) {
                 await sock.sendMessage(jid, {

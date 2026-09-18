@@ -23,7 +23,7 @@ module.exports = {
                 text: `✅ *Session Clean Completed!*\n━━━━━━━━━━━━━━━━━━━\n\n` +
                      `🧹 *Pruned:* ${deletedCount} stale temporary files (older than ${maxAgeHours}h).\n` +
                      `💾 *Storage Status:* Optimized & clean.\n\n` +
-                     `> Firebox Bot Optimization`
+                     `> Kingred Bot Optimization`
             }, { quoted: msg });
         } catch (err) {
             console.error("Clear Session Command Error:", err);

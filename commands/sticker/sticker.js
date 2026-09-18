@@ -27,7 +27,7 @@ module.exports = {
             );
 
             const sticker = new Sticker(buffer, {
-                pack: "Firebox Bot pack",
+                pack: "Kingred Bot pack",
                 author: "Wizard Bot",
                 type: StickerTypes.FULL,
                 categories: ["🤩", "🎉"],

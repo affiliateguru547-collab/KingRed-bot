@@ -13,7 +13,7 @@ module.exports = {
                 text: `🔗 *GROUP INVITE LINK*\n\n${inviteLink}\n\n_Share this link to invite others to the group!_`,
                 contextInfo: {
                     externalAdReply: {
-                        title: "Firebox Bot Group Invite",
+                        title: "Kingred Bot Group Invite",
                         body: "Join our community!",
                         thumbnailUrl: "https://files.catbox.moe/p9pntu.jpg",
                         sourceUrl: inviteLink,

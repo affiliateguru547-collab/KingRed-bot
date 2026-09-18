@@ -31,7 +31,7 @@ module.exports = {
                 `🎭 *Genres:* ${genres}\n\n` +
                 `📝 *Synopsis:* ${synopsis}\n\n` +
                 `🔗 *MAL URL:* ${url}\n\n` +
-                `_Firebox Bot Anime Hub_`;
+                `_Kingred Bot Anime Hub_`;
 
             if (anime.images?.jpg?.image_url) {
                 await sock.sendMessage(jid, {

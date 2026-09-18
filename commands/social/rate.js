@@ -39,7 +39,7 @@ module.exports = {
                 `${bar}\n` +
                 `📊 *Score:* ${score}/100\n` +
                 `${label}\n\n` +
-                `_Rated by Firebox Bot_`,
+                `_Rated by Kingred Bot_`,
             mentions: [mentioned]
         }, { quoted: msg });
     }

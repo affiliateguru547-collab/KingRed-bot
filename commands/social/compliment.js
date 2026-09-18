@@ -46,7 +46,7 @@ module.exports = {
                 `💌 *COMPLIMENT*\n\n` +
                 `To @${mentioned.split("@")[0]}:\n\n` +
                 `_"${comp}"_\n\n` +
-                `_Spread love • Firebox Bot_`,
+                `_Spread love • Kingred Bot_`,
             mentions: [mentioned]
         }, { quoted: msg });
     }

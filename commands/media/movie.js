@@ -31,7 +31,7 @@ module.exports = {
                 `🎬 *Director:* ${data.director}\n` +
                 `👥 *Actors:* ${data.actors}\n\n` +
                 `📝 *Plot:* ${data.plot}\n\n` +
-                `_Firebox Bot Media Hub_`;
+                `_Kingred Bot Media Hub_`;
 
             if (data.poster) {
                 await sock.sendMessage(jid, {

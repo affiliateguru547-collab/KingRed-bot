@@ -58,7 +58,7 @@ module.exports = {
                 `${bar}\n` +
                 `❤️ *Compatibility:* ${score}%\n` +
                 `${emoji} *Status:* ${label}\n\n` +
-                `_Firebox Bot Love Detector_`,
+                `_Kingred Bot Love Detector_`,
             mentions: [a, b]
         }, { quoted: msg });
     }

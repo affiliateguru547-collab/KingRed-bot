@@ -32,7 +32,7 @@ module.exports = {
 
             const answer = await askAI(query);
             await sock.sendMessage(jid, {
-                text: `🤖 *FIREBOX BOT AI*\n\n${answer}`
+                text: `🤖 *KINGRED BOT AI*\n\n${answer}`
             }, { quoted: msg });
 
         } catch (err) {

@@ -47,7 +47,7 @@ module.exports = {
                 `Targeting @${mentioned.split("@")[0]}...\n\n` +
                 `💬 _"${roast}"_\n\n` +
                 `🌡️ *Burn level:* ${["Warm 🟡", "Hot 🟠", "FIRE 🔴", "NUCLEAR ☢️"][Math.floor(Math.random() * 4)]}\n` +
-                `_Firebox Bot Roast Engine™_`,
+                `_Kingred Bot Roast Engine™_`,
             mentions: [mentioned]
         }, { quoted: msg });
     }

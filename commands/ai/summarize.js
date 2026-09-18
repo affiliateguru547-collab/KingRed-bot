@@ -36,7 +36,7 @@ module.exports = {
                 `📖 *DISCUSSION SUMMARY (Last 50 Chats)*\n━━━━━━━━━━━━━━━━━━━\n\n` +
                 `${summary}\n\n` +
                 `━━━━━━━━━━━━━━━━━━━\n` +
-                `_Firebox Bot AI Intel_`;
+                `_Kingred Bot AI Intel_`;
 
             await sock.sendMessage(jid, { text: response }, { quoted: msg });
 

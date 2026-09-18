@@ -26,7 +26,7 @@ module.exports = {
         }
 
         const keyList = Array.from(keys).sort();
-        let response = `💎 *FIREBOX BOT BOT VARIABLES*\n\n`;
+        let response = `💎 *KINGRED BOT BOT VARIABLES*\n\n`;
         
         const sensitiveKeys = ['key', 'pass', 'token', 'secret', 'session', 'database', 'url'];
         

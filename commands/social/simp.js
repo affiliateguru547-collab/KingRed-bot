@@ -37,7 +37,7 @@ module.exports = {
                 `📊 *Simp Level:* ${score}%\n` +
                 `🏷️ *Title:* ${name}\n\n` +
                 `💬 _"${desc}"_\n\n` +
-                `_Firebox Bot Simp Detector™_`,
+                `_Kingred Bot Simp Detector™_`,
             mentions: [mentioned]
         }, { quoted: msg });
     }

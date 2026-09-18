@@ -33,7 +33,7 @@ module.exports = {
                 `📊 *Respect:* ${score}%\n` +
                 `🏷️ *Rank:* ${title}\n\n` +
                 `💬 _"${desc}"_\n\n` +
-                `_Firebox Bot Social Index_`,
+                `_Kingred Bot Social Index_`,
             mentions: [mentioned]
         }, { quoted: msg });
     }

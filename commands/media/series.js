@@ -31,7 +31,7 @@ module.exports = {
                 `📡 *Network:* ${data.network}\n` +
                 `🎞️ *Status:* ${data.status}\n\n` +
                 `📝 *Synopsis:* ${data.synopsis}\n\n` +
-                `_Firebox Bot Media Hub_`;
+                `_Kingred Bot Media Hub_`;
 
             if (data.image) {
                 await sock.sendMessage(jid, {

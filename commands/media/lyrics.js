@@ -35,7 +35,7 @@ module.exports = {
                 (album ? `💿 *Album:* ${album}\n\n` : `\n`) +
                 `${truncated}\n\n` +
                 `━━━━━━━━━━━━━━━━━━━\n` +
-                `_Firebox Bot Media Hub_`;
+                `_Kingred Bot Media Hub_`;
 
             await sock.sendMessage(jid, { text: caption }, { quoted: msg });
 
