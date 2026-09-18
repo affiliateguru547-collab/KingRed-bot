@@ -12,7 +12,7 @@ module.exports = {
                      `🔗 *GitHub:* https://github.com/affiliateguru547-collab/KingRed-bot\n` +
                      `📢 *Official Channel:* https://whatsapp.com/channel/0029Vb9AwScF6sn47ClubG1Z\n` +
                      `💬 *Support Group:* https://chat.whatsapp.com/E8BOikeeP9a0ds2odgneHy\n\n` +
-                     `👤 *Developer:* Firebox Studios\n` +
+                     `👤 *Developer:* Kingred Studios\n` +
                      `_Don't forget to give a ⭐ if you like the project!_`;
 
         const { getSettings } = require("../../lib/settings");

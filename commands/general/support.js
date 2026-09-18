@@ -49,7 +49,7 @@ module.exports = {
         const { sendButtonMessage } = require("../../lib/utils");
         const footerText = "Kingred Bot Support";
         const buttons = [
-            { text: "💻 Bot Repo", url: "https://github.com/njogu26713-commits/firebox-bot" },
+            { text: "💻 Bot Repo", url: 'github.com/affiliateguru547-cc/KingRed-bot" },
             { text: "📢 WhatsApp Channel", url: "https://whatsapp.com/channel/0029Vb9AwScF6sn47ClubG1Z" }
         ];
 
