@@ -23,7 +23,7 @@ module.exports = {
             }, { quoted: msg });
 
             await sock.sendMessage(jid, { 
-                text: `👑 *KINGRED BOT OWNER*\n\n*Owner:* Denzel\n*Company:* Kingred Studios\n*WhatsApp:* +254100969922\n*GitHub:* https://affiliateguru.com/njogu26713-commits/firebox-bot`
+                text: `👑🥵🧠 *KINGRED BOT OWNER*\n\n*Owner:* Denzel\n*Company:* Kingred Studios\n*WhatsApp:* +254100969922\n*GitHub:* https://github.com/affiliateguru547-collab/KingRed-bot`
             }, { quoted: msg });
 
         } catch (err) {
