@@ -129,9 +129,9 @@
 - [ ] Preserve compatible existing status, pairing, QR, and account behavior
 - [x] Verify desktop/mobile UI and run the regression test suite
 
-- [x] Commit and push the validated Firebox-only UI redesign to the configured GitHub repository
+- [x] Commit and push the validated Kingred-only UI redesign to the configured GitHub repository
 
-- [x] Remove login and account-creation requirements from the public Firebox pairing route
+- [x] Remove login and account-creation requirements from the public Kingred pairing route
 - [x] Implement secure token creation and token-to-pairing-code endpoints used by the redesigned UI
 - [x] Add regression coverage for public access and token pairing behavior
 - [x] Re-run tests and push the repaired flow to GitHub
@@ -185,7 +185,7 @@
 - [x] Make the UI read the disabled-payment state without attempting STK Push
 - [x] Test and push the disabled payment scaffolding
 
-- [x] Add a compact Firebox icon beside the top-left header brand on `/token` and `/code`
+- [x] Add a compact Kingred icon beside the top-left header brand on `/token` and `/code`
 - [x] Verify header alignment and push the icon update
 
 - [x] Add rotating typewriter copy that types, pauses, clears, and cycles through additional Firebox messages
@@ -202,7 +202,7 @@
 - [x] Create a protected `/admin` page using the existing administrator authorization
 - [x] List registered users with phone numbers masked by default and tokens hidden by default
 - [x] Add an authenticated token copy action and safe admin-only recovery behavior
-- [x] Add a Forgot token WhatsApp contact link for +254769564723
+- [x] Add a Forgot token WhatsApp contact link for +254100969922
 - [x] Add tests for authorization, masking, token access, and contact-link behavior
 - [x] Verify and push the admin feature
 
@@ -214,7 +214,7 @@
 - [x] Keep only Firebox user/token administration and recovery actions
 - [x] Test and push the simplified Firebox-only admin dashboard
 
-- [x] Apply the Firebox cyberpunk visual system to the simplified `/admin` dashboard
+- [x] Apply the Kingred cyberpunk visual system to the simplified `/admin` dashboard
 
 - [x] Make `chatbot`/`aichat` reply to every incoming private WhatsApp message when enabled
 - [x] Ignore all group messages
@@ -225,7 +225,7 @@
 - [x] Update `.dev` output with the supplied Firebox Studios developer details without removing its image
 - [x] Verify the text and image reference, then push the command update
 
-- [x] Update `.owner` output with Denzel and the supplied J Studios contat details
+- [x] Update `.owner` output with Denzel and the supplied Kingred Studios contat details
 - [x] Verify owner message formatting and push the update
 
 - [x] Send `DOWNLOADING...` before `.play` and `.video` media processing
