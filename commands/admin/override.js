@@ -11,7 +11,7 @@ module.exports = {
 
         if (!action) {
             return await sock.sendMessage(jid, { 
-                text: `🛑 *FIREBOX OVERRIDE SUB-MENU*\n\n` +
+                text: `🛑 *KINGRED OVERRIDE SUB-MENU*\n\n` +
                       `1. \`.override games\` - Clear active game sessions in this chat\n` +
                       `2. \`.override cache\` - Performance reset (mock)\n` +
                       `3. \`.override all\` - Global reset attempt\n\n` +

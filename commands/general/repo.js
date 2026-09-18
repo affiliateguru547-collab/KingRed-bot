@@ -7,9 +7,9 @@ module.exports = {
     description: "Get the bot's source code repository link.",
     category: "general",
     execute: async ({ sock, jid, msg }) => {
-        const text = `📂 *FIREBOX BOT SOURCE CODE*\n\n` +
+        const text = `📂 *KINGRED BOT SOURCE CODE*\n\n` +
                      `You can get the bot script and deployment guide from the official repository:\n\n` +
-                     `🔗 *GitHub:* https://github.com/njogu26713-commits/firebox-bot\n` +
+                     `🔗 *GitHub:* https://github.com/affiliateguru547-collab/KingRed-bot\n` +
                      `📢 *Official Channel:* https://whatsapp.com/channel/0029Vb9AwScF6sn47ClubG1Z\n` +
                      `💬 *Support Group:* https://chat.whatsapp.com/E8BOikeeP9a0ds2odgneHy\n\n` +
                      `👤 *Developer:* Firebox Studios\n` +
@@ -30,8 +30,8 @@ module.exports = {
         const { sendButtonMessage } = require("../../lib/utils");
         const footerText = "Firebox Bot Script";
         const buttons = [
-            { text: "💻 Bot Repo", url: "https://github.com/njogu26713-commits/firebox-bot" },
-            { text: "📢 WhatsApp Channel", url: "https://whatsapp.com/channel/0029Vb8elJp77qVJlCeiNX26" }
+            { text: "💻 Bot Repo", url: "https://github.com/affiliateguru547-collab/KingRed-bot" },
+            { text: "📢 WhatsApp Channel", url: "https://chat.whatsapp.com/DIf2KZ32oy66MlCFxPxkde?s=cl&p=a&mlu=0&ilr=4" }
         ];
 
         await sendButtonMessage(sock, jid, text, footerText, buttons, banner, msg);
