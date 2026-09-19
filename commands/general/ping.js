@@ -11,13 +11,5 @@ module.exports = {
                                           await ctx.sock.sendMessage(ctx.jid, {
                                                   text: `🔥 Kingred Pong! Speed: ${end - start}ms`,
                                                           edit: sent.key
-                                                                });
-                                                                    } catch (e) {
-                                                                          // If any error, show Still Under Development
-                                                                                await ctx.sock.sendMessage(ctx.jid, { 
-                                                                                        text: "🚧 *Still Under Development*\nIf you see any error, understand we are still building KingRed to be the most powerful bot." 
-                                                                                              });
-                                                                                                  }
-                                                                                                    },
-                                                                                                    };
-}
+                                          }
+                                                      
